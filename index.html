@@ -1,71 +1,1053 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Prática de Divisão | Prof. Gabriel Kawan</title>
+
 <style>
-:root{--blue:#2563eb;--navy:#172554;--bg:#f1f5f9;--green:#16a34a;--red:#dc2626}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#1e293b}
-header{text-align:center;padding:24px 15px;color:#fff;background:linear-gradient(135deg,#1e3a8a,#2563eb)}
-header h1{margin:0 0 8px;font-size:clamp(23px,4vw,31px)}header p{margin:0}
-main{max-width:1100px;margin:24px auto;padding:0 15px}.menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.mode{border:0;border-radius:15px;padding:22px 18px;min-height:175px;background:#fff;box-shadow:0 4px 12px #0001;text-align:left;cursor:pointer;color:#1e293b}
-.mode:hover{outline:3px solid #bfdbfe}.mode .emoji{font-size:36px;display:block;margin-bottom:12px}.mode h3{margin:0 0 8px;color:#1d4ed8}.mode p{margin:0;line-height:1.45}
-.panel{display:none;background:white;border-radius:16px;padding:22px;margin-top:22px;box-shadow:0 4px 15px #0001}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:9px;padding:11px 16px;font-weight:bold;cursor:pointer}.primary{background:var(--blue);color:#fff}.secondary{background:#e2e8f0;color:#1e293b}
-.tablegrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:16px}.tablecard{background:#fee2e2;color:#7f1d1d;border:0;border-radius:10px;padding:12px 6px;cursor:pointer;line-height:1.6}.tablecard h3{margin:0 0 5px}
-.question{font-size:clamp(30px,6vw,46px);font-weight:bold;text-align:center;margin:20px 0}.center{text-align:center}.answer{width:130px;font-size:26px;text-align:center;padding:10px;border:2px solid #93c5fd;border-radius:10px}
-.feedback{min-height:26px;font-weight:bold;text-align:center;margin:12px 0}.progress{background:#e2e8f0;height:9px;border-radius:9px;overflow:hidden;margin:12px 0}.progress div{height:100%;width:0;background:var(--blue)}
-.instruction{background:#eff6ff;border-radius:10px;padding:12px;line-height:1.5}.picker{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin:14px 0}
-.choice{font-size:28px;border:2px solid #cbd5e1;border-radius:10px;padding:8px 12px;background:#fff;cursor:pointer}.choice.selected{border-color:var(--blue);background:#dbeafe}
-.pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:65px;padding:12px;border:2px dashed #94a3b8;border-radius:12px;margin:12px 0}
-.token{display:inline-flex;align-items:center;justify-content:center;font-size:28px;width:42px;height:42px;border-radius:9px;background:white;border:1px solid #cbd5e1;cursor:grab;user-select:none;touch-action:manipulation}
-.groups{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:14px 0}.group{min-height:115px;border:3px dashed #94a3b8;border-radius:12px;padding:8px;text-align:center;background:#f8fafc}
-.group h4{margin:0 0 7px;font-size:14px}.inside{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;min-height:55px}.inside .token{width:34px;height:34px;font-size:23px}
-.group[data-c="0"]{background:#fee2e2;border-color:#f87171}.group[data-c="1"]{background:#dbeafe;border-color:#60a5fa}.group[data-c="2"]{background:#dcfce7;border-color:#4ade80}.group[data-c="3"]{background:#fef3c7;border-color:#fbbf24}.group[data-c="4"]{background:#f3e8ff;border-color:#c084fc}
-.group[data-c="5"]{background:#ffedd5;border-color:#fb923c}.group[data-c="6"]{background:#cffafe;border-color:#22d3ee}.group[data-c="7"]{background:#fce7f3;border-color:#f472b6}.group[data-c="8"]{background:#e0e7ff;border-color:#818cf8}.group[data-c="9"]{background:#ecfccb;border-color:#a3e635}
-.result{display:none;padding:16px;margin-top:16px;border-radius:12px;background:#dcfce7;text-align:center}
-footer{text-align:center;padding:23px;margin-top:30px;color:white;background:var(--navy)}
-@media(max-width:760px){.menu{grid-template-columns:1fr}.tablegrid{grid-template-columns:repeat(2,minmax(0,1fr))}.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style></head>
+:root {
+  --blue: #2563eb;
+  --navy: #172554;
+  --bg: #f1f5f9;
+  --green: #16a34a;
+  --red: #dc2626;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: #1e293b;
+}
+
+header {
+  text-align: center;
+  padding: 24px 15px;
+  color: #fff;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(23px, 4vw, 31px);
+}
+
+header p {
+  margin: 0;
+}
+
+main {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 15px;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.mode {
+  border: 0;
+  border-radius: 15px;
+  padding: 22px 18px;
+  min-height: 175px;
+  background: #fff;
+  box-shadow: 0 4px 12px #0001;
+  text-align: left;
+  cursor: pointer;
+  color: #1e293b;
+}
+
+.mode:hover {
+  outline: 3px solid #bfdbfe;
+}
+
+.mode .emoji {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.mode h3 {
+  margin: 0 0 8px;
+  color: #1d4ed8;
+}
+
+.mode p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.panel {
+  display: none;
+  background: white;
+  border-radius: 16px;
+  padding: 22px;
+  margin-top: 22px;
+  box-shadow: 0 4px 15px #0001;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.primary {
+  background: var(--blue);
+  color: #fff;
+}
+
+.secondary {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.tablegrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.tablecard {
+  background: #fee2e2;
+  color: #7f1d1d;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 6px;
+  cursor: pointer;
+  line-height: 1.6;
+}
+
+.tablecard h3 {
+  margin: 0 0 5px;
+}
+
+.question {
+  font-size: clamp(30px, 6vw, 46px);
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.answer {
+  width: 130px;
+  font-size: 26px;
+  text-align: center;
+  padding: 10px;
+  border: 2px solid #93c5fd;
+  border-radius: 10px;
+}
+
+.feedback {
+  min-height: 26px;
+  font-weight: bold;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.progress {
+  background: #e2e8f0;
+  height: 9px;
+  border-radius: 9px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.progress div {
+  height: 100%;
+  width: 0;
+  background: var(--blue);
+}
+
+.instruction {
+  background: #eff6ff;
+  border-radius: 10px;
+  padding: 12px;
+  line-height: 1.5;
+}
+
+.picker {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 14px 0;
+}
+
+.choice {
+  font-size: 28px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.choice.selected {
+  border-color: var(--blue);
+  background: #dbeafe;
+}
+
+.pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  min-height: 65px;
+  padding: 12px;
+  border: 2px dashed #94a3b8;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+
+.token {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  cursor: grab;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.group {
+  min-height: 115px;
+  border: 3px dashed #94a3b8;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  background: #f8fafc;
+}
+
+.group h4 {
+  margin: 0 0 7px;
+  font-size: 14px;
+}
+
+.inside {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  min-height: 55px;
+}
+
+.inside .token {
+  width: 34px;
+  height: 34px;
+  font-size: 23px;
+}
+
+.group[data-c="0"] {
+  background: #fee2e2;
+  border-color: #f87171;
+}
+
+.group[data-c="1"] {
+  background: #dbeafe;
+  border-color: #60a5fa;
+}
+
+.group[data-c="2"] {
+  background: #dcfce7;
+  border-color: #4ade80;
+}
+
+.group[data-c="3"] {
+  background: #fef3c7;
+  border-color: #fbbf24;
+}
+
+.group[data-c="4"] {
+  background: #f3e8ff;
+  border-color: #c084fc;
+}
+
+.group[data-c="5"] {
+  background: #ffedd5;
+  border-color: #fb923c;
+}
+
+.group[data-c="6"] {
+  background: #cffafe;
+  border-color: #22d3ee;
+}
+
+.group[data-c="7"] {
+  background: #fce7f3;
+  border-color: #f472b6;
+}
+
+.group[data-c="8"] {
+  background: #e0e7ff;
+  border-color: #818cf8;
+}
+
+.group[data-c="9"] {
+  background: #ecfccb;
+  border-color: #a3e635;
+}
+
+.result {
+  display: none;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 12px;
+  background: #dcfce7;
+  text-align: center;
+}
+
+/* Teclado numérico virtual */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  max-width: 300px;
+  margin: 14px auto;
+}
+
+.numkey {
+  min-height: 56px;
+  border: 0;
+  border-radius: 11px;
+  background: #e2e8f0;
+  color: #1e293b;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #cbd5e1;
+  touch-action: manipulation;
+}
+
+.numkey:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.numkey.clear {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.numkey.erase {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.numkey.confirm {
+  grid-column: span 3;
+  background: #16a34a;
+  color: white;
+  font-size: 18px;
+}
+
+footer {
+  text-align: center;
+  padding: 23px;
+  margin-top: 30px;
+  color: white;
+  background: var(--navy);
+}
+
+@media (max-width: 760px) {
+  .menu {
+    grid-template-columns: 1fr;
+  }
+
+  .tablegrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+</style>
+</head>
+
 <body>
-<header><h1>➗ Prática de Divisão</h1><p>Aprender divisão pode ser divertido: pratique, agrupe e descubra!</p></header>
+
+<header>
+  <h1>➗ Prática de Divisão</h1>
+  <p>Aprender divisão pode ser divertido: pratique, agrupe e descubra!</p>
+</header>
+
 <main>
-<section id="home"><h2>Escolha como deseja praticar</h2><div class="menu">
-<button class="mode" onclick="openTables()"><span class="emoji">🔢</span><h3>1. Tabuada de divisão</h3><p>Treine divisões exatas com questões aleatórias e correção automática.</p></button>
-<button class="mode" onclick="startGrouping(false)"><span class="emoji">🧸</span><h3>2. Divisão com figuras</h3><p>Arraste emojis para grupos coloridos e distribua tudo igualmente.</p></button>
-<button class="mode" onclick="startGrouping(true)"><span class="emoji">🍎</span><h3>3. Divisão com resto</h3><p>Faça os agrupamentos, veja o que sobra e informe o resto.</p></button>
-</div></section>
-<section id="tables" class="panel"><div class="top"><h2>Tabuada de divisão</h2><button class="btn secondary" onclick="home()">Início</button></div><p>Escolha um divisor. Cada prática tem 10 questões dos múltiplos de 1 a 10.</p><div class="tablegrid" id="tablegrid"></div></section>
-<section id="quiz" class="panel"><div class="top"><h2 id="quiztitle">Prática</h2><button class="btn secondary" onclick="home()">Início</button></div><div class="progress"><div id="bar"></div></div><p class="center" id="count"></p><div class="question" id="q"></div><div class="center"><input class="answer" id="ans" type="number" min="0" placeholder="?" inputmode="numeric"><button class="btn primary" id="check">Conferir</button></div><div class="feedback" id="fb"></div><div class="center"><button class="btn secondary" id="next" style="display:none">Próxima questão</button></div><div class="result" id="qresult"></div></section>
-<section id="grouping" class="panel"><div class="top"><h2 id="gtitle">Vamos agrupar!</h2><button class="btn secondary" onclick="home()">Início</button></div>
-<p class="instruction" id="instruction">Escolha um emoji e arraste para cada espaço. Em celular, toque na figura e depois no grupo.</p>
-<div class="picker" id="picker"><button class="choice selected" data-e="🐻">🐻</button><button class="choice" data-e="🐸">🐸</button><button class="choice" data-e="🐱">🐱</button><button class="choice" data-e="🐰">🐰</button><button class="choice" data-e="🦄">🦄</button><button class="choice" data-e="🍎">🍎</button><button class="choice" data-e="⭐">⭐</button></div>
-<div class="question" id="gq"></div><div class="center"><strong>Figuras disponíveis:</strong></div><div class="pool" id="pool"></div><div class="groups" id="groups"></div>
-<div class="center"><button class="btn secondary" id="reset">Recomeçar agrupamento</button> <button class="btn primary" id="done">Agrupamento pronto!</button></div>
-<div id="answerarea" style="display:none;text-align:center;margin-top:18px"><p id="ask"></p><input class="answer" id="ganswer" type="number" min="0" placeholder="?" inputmode="numeric"> <button class="btn primary" id="gcheck">Conferir resposta</button></div>
-<div class="feedback" id="gfb"></div><div class="result" id="gresult"></div><div class="center" id="again" style="display:none"><button class="btn primary" onclick="startGrouping(groupRemainderMode)">Outra atividade</button> <button class="btn secondary" onclick="home()">Início</button></div>
-</section></main><footer>Desenvolvido: Prof. Gabriel Kawan</footer>
+
+<section id="home">
+  <h2>Escolha como deseja praticar</h2>
+
+  <div class="menu">
+    <button class="mode" onclick="openTables()">
+      <span class="emoji">🔢</span>
+      <h3>1. Tabuada de divisão</h3>
+      <p>Treine divisões exatas com questões aleatórias e correção automática.</p>
+    </button>
+
+    <button class="mode" onclick="startGrouping(false)">
+      <span class="emoji">🧸</span>
+      <h3>2. Divisão com figuras</h3>
+      <p>Arraste emojis para grupos coloridos e distribua tudo igualmente.</p>
+    </button>
+
+    <button class="mode" onclick="startGrouping(true)">
+      <span class="emoji">🍎</span>
+      <h3>3. Divisão com resto</h3>
+      <p>Faça os agrupamentos, veja o que sobra e informe o resto.</p>
+    </button>
+  </div>
+</section>
+
+<section id="tables" class="panel">
+  <div class="top">
+    <h2>Tabuada de divisão</h2>
+    <button class="btn secondary" onclick="home()">Início</button>
+  </div>
+
+  <p>Escolha um divisor. Cada prática tem 10 questões dos múltiplos de 1 a 10.</p>
+  <div class="tablegrid" id="tablegrid"></div>
+</section>
+
+<section id="quiz" class="panel">
+  <div class="top">
+    <h2 id="quiztitle">Prática</h2>
+    <button class="btn secondary" onclick="home()">Início</button>
+  </div>
+
+  <div class="progress">
+    <div id="bar"></div>
+  </div>
+
+  <p class="center" id="count"></p>
+  <div class="question" id="q"></div>
+
+  <div class="center">
+    <input
+      class="answer"
+      id="ans"
+      type="text"
+      readonly
+      inputmode="none"
+      placeholder="?"
+      aria-label="Resposta"
+    >
+
+    <div class="numpad" data-target="ans"></div>
+
+    <button class="btn primary" id="check">Conferir</button>
+  </div>
+
+  <div class="feedback" id="fb"></div>
+
+  <div class="center">
+    <button class="btn secondary" id="next" style="display:none">
+      Próxima questão
+    </button>
+  </div>
+
+  <div class="result" id="qresult"></div>
+</section>
+
+<section id="grouping" class="panel">
+  <div class="top">
+    <h2 id="gtitle">Vamos agrupar!</h2>
+    <button class="btn secondary" onclick="home()">Início</button>
+  </div>
+
+  <p class="instruction" id="instruction">
+    Escolha um emoji e arraste para cada espaço. Em celular, toque na figura e depois no grupo.
+  </p>
+
+  <div class="picker" id="picker">
+    <button class="choice selected" data-e="🐻">🐻</button>
+    <button class="choice" data-e="🐸">🐸</button>
+    <button class="choice" data-e="🐱">🐱</button>
+    <button class="choice" data-e="🐰">🐰</button>
+    <button class="choice" data-e="🦄">🦄</button>
+    <button class="choice" data-e="🍎">🍎</button>
+    <button class="choice" data-e="⭐">⭐</button>
+  </div>
+
+  <div class="question" id="gq"></div>
+
+  <div class="center">
+    <strong>Figuras disponíveis:</strong>
+  </div>
+
+  <div class="pool" id="pool"></div>
+  <div class="groups" id="groups"></div>
+
+  <div class="center">
+    <button class="btn secondary" id="reset">
+      Recomeçar agrupamento
+    </button>
+
+    <button class="btn primary" id="done">
+      Agrupamento pronto!
+    </button>
+  </div>
+
+  <div id="answerarea" style="display:none;text-align:center;margin-top:18px">
+    <p id="ask"></p>
+
+    <input
+      class="answer"
+      id="ganswer"
+      type="text"
+      readonly
+      inputmode="none"
+      placeholder="?"
+      aria-label="Resposta"
+    >
+
+    <div class="numpad" data-target="ganswer"></div>
+
+    <button class="btn primary" id="gcheck">
+      Conferir resposta
+    </button>
+  </div>
+
+  <div class="feedback" id="gfb"></div>
+  <div class="result" id="gresult"></div>
+
+  <div class="center" id="again" style="display:none">
+    <button class="btn primary" onclick="startGrouping(groupRemainderMode)">
+      Outra atividade
+    </button>
+
+    <button class="btn secondary" onclick="home()">
+      Início
+    </button>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Desenvolvido: Prof. Gabriel Kawan
+</footer>
+
 <script>
-const $=id=>document.getElementById(id);
-let divQuestions=[],di=0,dCorrect=0,divisor=2;
-let groupRemainderMode=false,emoji="🐻",dividend=12,groupDiv=4,quotient=3,remainder=0,placed=[],selected=null,answered=false;
-function hide(){["tables","quiz","grouping"].forEach(id=>$(id).style.display="none");$("home").style.display="none"}
-function home(){hide();$("home").style.display="block";window.scrollTo({top:0,behavior:"smooth"})}
-function openTables(){hide();$("tables").style.display="block";let html="";for(let d=1;d<=10;d++){let s="";for(let m=1;m<=10;m++)s+=`${d*m} ÷ ${d} = ${m}<br>`;html+=`<button class="tablecard" onclick="startQuiz(${d})"><h3>Divisão por ${d}</h3>${s}<b>Praticar</b></button>`}$("tablegrid").innerHTML=html}
-function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function startQuiz(d){divisor=d;divQuestions=shuffle(Array.from({length:10},(_,i)=>({n:d*(i+1),a:i+1})));di=0;dCorrect=0;hide();$("quiz").style.display="block";$("qresult").style.display="none";$("quiztitle").textContent="Prática: divisão por "+d;showQ()}
-function showQ(){let x=divQuestions[di];$("q").textContent=`${x.n} ÷ ${divisor} = ?`;$("count").textContent=`Questão ${di+1} de 10`;$("bar").style.width=(di/10*100)+"%";$("ans").value="";$("fb").textContent="";$("check").style.display="inline-block";$("next").style.display="none"}
-$("check").onclick=checkQ;$("ans").addEventListener("keydown",e=>{if(e.key==="Enter")checkQ()});
-function checkQ(){if($("ans").value===""){ $("fb").textContent="Digite sua resposta.";return}let x=divQuestions[di];if(Number($("ans").value)===x.a){dCorrect++;$("fb").textContent="Muito bem! Acertou! 🌟";$("fb").style.color="#16a34a"}else{$("fb").textContent=`Quase! A resposta é ${x.a}.`;$("fb").style.color="#dc2626"}$("check").style.display="none";if(di<9){$("next").style.display="inline-block";$("next").onclick=()=>{di++;showQ()}}else{$("bar").style.width="100%";$("qresult").style.display="block";$("qresult").innerHTML=`<h3>Prática concluída! 🎉</h3><p>Você acertou ${dCorrect} de 10.</p><button class="btn primary" onclick="startQuiz(${divisor})">Praticar novamente</button> <button class="btn secondary" onclick="openTables()">Outra tabuada</button>`}}
-function startGrouping(withRemainder){groupRemainderMode=withRemainder;groupDiv=2+Math.floor(Math.random()*4);if(withRemainder){let opts=[];for(let n=groupDiv+1;n<=20;n++)if(n%groupDiv!==0)opts.push(n);dividend=opts[Math.floor(Math.random()*opts.length)]}else{let opts=[];for(let n=groupDiv;n<=20;n+=groupDiv)opts.push(n);dividend=opts[Math.floor(Math.random()*opts.length)]}quotient=Math.floor(dividend/groupDiv);remainder=dividend%groupDiv;placed=Array.from({length:groupDiv},()=>[]);selected=null;answered=false;hide();$("grouping").style.display="block";$("gtitle").textContent=withRemainder?"Divisão com resto":"Divisão com figuras";$("gq").textContent=`${dividend} figuras ÷ ${groupDiv} grupos`;$("instruction").textContent=withRemainder?"Distribua igualmente nos grupos. Se sobrarem figuras, deixe-as fora. Depois informe o resto.":"Distribua todas as figuras igualmente nos grupos coloridos."; $("answerarea").style.display="none";$("gfb").textContent="";$("gresult").style.display="none";$("again").style.display="none";$("done").style.display="inline-block";$("reset").style.display="inline-block";$("gcheck").disabled=false;setupPicker();render()}
-function setupPicker(){document.querySelectorAll(".choice").forEach(b=>{b.classList.toggle("selected",b.dataset.e===emoji);b.onclick=()=>{emoji=b.dataset.e;document.querySelectorAll(".choice").forEach(c=>c.classList.toggle("selected",c===b));render()}})}
-function makeToken(id){let t=document.createElement("div");t.className="token";t.textContent=emoji;t.draggable=true;t.dataset.id=id;t.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",id);selected=id});t.addEventListener("click",()=>{selected=id;$("gfb").textContent="Agora toque no grupo desejado.";});return t}
-function render(){let pool=$("pool"),boxes=$("groups");pool.innerHTML="";boxes.innerHTML="";let used=placed.flat();for(let i=0;i<dividend;i++)if(!used.includes(i))pool.appendChild(makeToken(i));for(let g=0;g<groupDiv;g++){let box=document.createElement("div");box.className="group";box.dataset.c=g%10;box.innerHTML=`<h4>Grupo ${g+1}</h4><div class="inside"></div>`;box.ondragover=e=>e.preventDefault();box.ondrop=e=>{e.preventDefault();move(e.dataTransfer.getData("text/plain"),g)};box.onclick=()=>{if(selected!==null)move(selected,g)};placed[g].forEach(id=>box.querySelector(".inside").appendChild(makeToken(id)));boxes.appendChild(box)}}
-function move(id,g){id=Number(id);if(!Number.isInteger(id))return;placed.forEach(a=>{let i=a.indexOf(id);if(i>=0)a.splice(i,1)});placed[g].push(id);selected=null;$("gfb").textContent="";render()}
-$("reset").onclick=()=>{placed=Array.from({length:groupDiv},()=>[]);selected=null;$("answerarea").style.display="none";$("done").style.display="inline-block";$("gresult").style.display="none";$("again").style.display="none";$("gfb").textContent="";render()};
-$("done").onclick=()=>{let total=placed.reduce((s,a)=>s+a.length,0),left=dividend-total,sizes=placed.map(a=>a.length),equal=sizes.every(n=>n===sizes[0]);let ok=groupRemainderMode?equal&&left===remainder:equal&&left===0;if(!ok){$("gfb").style.color="#dc2626";$("gfb").textContent=groupRemainderMode?"Os grupos devem ter quantidades iguais; deixe o que sobrar fora.":"Ainda não está igual! Distribua igualmente e use todas as figuras.";return}$("gfb").style.color="#16a34a";$("gfb").textContent="Agrupamento certinho! Agora responda.";$("done").style.display="none";$("answerarea").style.display="block";$("ask").textContent=groupRemainderMode?`Qual é o resto de ${dividend} ÷ ${groupDiv}?`:`Quanto é ${dividend} ÷ ${groupDiv}?`;$("ganswer").value=""};
-$("gcheck").onclick=checkGroup;$("ganswer").addEventListener("keydown",e=>{if(e.key==="Enter")checkGroup()});
-function checkGroup(){if(answered)return;if($("ganswer").value===""){ $("gfb").textContent="Digite sua resposta.";return}let expected=groupRemainderMode?remainder:quotient;if(Number($("ganswer").value)===expected){answered=true;$("gfb").style.color="#16a34a";$("gfb").textContent="Resposta correta! 🎉";$("gresult").style.display="block";$("gresult").innerHTML=groupRemainderMode?`<h3>Isso mesmo! O resto é ${remainder}.</h3><p>${dividend} ÷ ${groupDiv} = ${quotient}, e sobram ${remainder}.</p>`:`<h3>Perfeito! ${dividend} ÷ ${groupDiv} = ${quotient}.</h3><p>Você distribuiu tudo igualmente!</p>`;$("again").style.display="block";$("gcheck").disabled=true}else{$("gfb").style.color="#dc2626";$("gfb").textContent=groupRemainderMode?"Conte as figuras que sobraram e tente novamente.":"Conte quantas figuras há em cada grupo e tente novamente."}}
+const $ = id => document.getElementById(id);
+
+let divQuestions = [];
+let di = 0;
+let dCorrect = 0;
+let divisor = 2;
+
+let groupRemainderMode = false;
+let emoji = "🐻";
+let dividend = 12;
+let groupDiv = 4;
+let quotient = 3;
+let remainder = 0;
+let placed = [];
+let selected = null;
+let answered = false;
+
+function hide() {
+  ["tables", "quiz", "grouping"].forEach(id => {
+    $(id).style.display = "none";
+  });
+
+  $("home").style.display = "none";
+}
+
+function home() {
+  hide();
+  $("home").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function openTables() {
+  hide();
+  $("tables").style.display = "block";
+
+  let html = "";
+
+  for (let d = 1; d <= 10; d++) {
+    let s = "";
+
+    for (let m = 1; m <= 10; m++) {
+      s += `${d * m} ÷ ${d} = ${m}<br>`;
+    }
+
+    html += `
+      <button class="tablecard" onclick="startQuiz(${d})">
+        <h3>Divisão por ${d}</h3>
+        ${s}
+        <b>Praticar</b>
+      </button>
+    `;
+  }
+
+  $("tablegrid").innerHTML = html;
+}
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+
+  return a;
+}
+
+function startQuiz(d) {
+  divisor = d;
+
+  divQuestions = shuffle(
+    Array.from({ length: 10 }, (_, i) => ({
+      n: d * (i + 1),
+      a: i + 1
+    }))
+  );
+
+  di = 0;
+  dCorrect = 0;
+
+  hide();
+  $("quiz").style.display = "block";
+  $("qresult").style.display = "none";
+  $("quiztitle").textContent = "Prática: divisão por " + d;
+
+  showQ();
+}
+
+function showQ() {
+  let x = divQuestions[di];
+
+  $("q").textContent = `${x.n} ÷ ${divisor} = ?`;
+  $("count").textContent = `Questão ${di + 1} de 10`;
+  $("bar").style.width = (di / 10 * 100) + "%";
+
+  $("ans").value = "";
+  $("fb").textContent = "";
+
+  $("check").style.display = "inline-block";
+  $("next").style.display = "none";
+}
+
+$("check").onclick = checkQ;
+
+$("ans").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    checkQ();
+  }
+});
+
+function checkQ() {
+  if ($("ans").value === "") {
+    $("fb").textContent = "Digite sua resposta.";
+    return;
+  }
+
+  let x = divQuestions[di];
+
+  if (Number($("ans").value) === x.a) {
+    dCorrect++;
+    $("fb").textContent = "Muito bem! Acertou! 🌟";
+    $("fb").style.color = "#16a34a";
+  } else {
+    $("fb").textContent = `Quase! A resposta é ${x.a}.`;
+    $("fb").style.color = "#dc2626";
+  }
+
+  $("check").style.display = "none";
+
+  if (di < 9) {
+    $("next").style.display = "inline-block";
+
+    $("next").onclick = () => {
+      di++;
+      showQ();
+    };
+  } else {
+    $("bar").style.width = "100%";
+    $("qresult").style.display = "block";
+
+    $("qresult").innerHTML = `
+      <h3>Prática concluída! 🎉</h3>
+      <p>Você acertou ${dCorrect} de 10.</p>
+      <button class="btn primary" onclick="startQuiz(${divisor})">
+        Praticar novamente
+      </button>
+      <button class="btn secondary" onclick="openTables()">
+        Outra tabuada
+      </button>
+    `;
+  }
+}
+
+function startGrouping(withRemainder) {
+  groupRemainderMode = withRemainder;
+  groupDiv = 2 + Math.floor(Math.random() * 4);
+
+  if (withRemainder) {
+    let opts = [];
+
+    for (let n = groupDiv + 1; n <= 20; n++) {
+      if (n % groupDiv !== 0) {
+        opts.push(n);
+      }
+    }
+
+    dividend = opts[Math.floor(Math.random() * opts.length)];
+  } else {
+    let opts = [];
+
+    for (let n = groupDiv; n <= 20; n += groupDiv) {
+      opts.push(n);
+    }
+
+    dividend = opts[Math.floor(Math.random() * opts.length)];
+  }
+
+  quotient = Math.floor(dividend / groupDiv);
+  remainder = dividend % groupDiv;
+
+  placed = Array.from({ length: groupDiv }, () => []);
+  selected = null;
+  answered = false;
+
+  hide();
+  $("grouping").style.display = "block";
+
+  $("gtitle").textContent = withRemainder
+    ? "Divisão com resto"
+    : "Divisão com figuras";
+
+  $("gq").textContent = `${dividend} figuras ÷ ${groupDiv} grupos`;
+
+  $("instruction").textContent = withRemainder
+    ? "Distribua igualmente nos grupos. Se sobrarem figuras, deixe-as fora. Depois informe o resto."
+    : "Distribua todas as figuras igualmente nos grupos coloridos.";
+
+  $("answerarea").style.display = "none";
+  $("gfb").textContent = "";
+  $("gresult").style.display = "none";
+  $("again").style.display = "none";
+
+  $("done").style.display = "inline-block";
+  $("reset").style.display = "inline-block";
+  $("gcheck").disabled = false;
+
+  setupPicker();
+  render();
+}
+
+function setupPicker() {
+  document.querySelectorAll(".choice").forEach(b => {
+    b.classList.toggle("selected", b.dataset.e === emoji);
+
+    b.onclick = () => {
+      emoji = b.dataset.e;
+
+      document.querySelectorAll(".choice").forEach(c => {
+        c.classList.toggle("selected", c === b);
+      });
+
+      render();
+    };
+  });
+}
+
+function makeToken(id) {
+  let t = document.createElement("div");
+
+  t.className = "token";
+  t.textContent = emoji;
+  t.draggable = true;
+  t.dataset.id = id;
+
+  t.addEventListener("dragstart", e => {
+    e.dataTransfer.setData("text/plain", id);
+    selected = id;
+  });
+
+  t.addEventListener("click", () => {
+    selected = id;
+    $("gfb").textContent = "Agora toque no grupo desejado.";
+  });
+
+  return t;
+}
+
+function render() {
+  let pool = $("pool");
+  let boxes = $("groups");
+
+  pool.innerHTML = "";
+  boxes.innerHTML = "";
+
+  let used = placed.flat();
+
+  for (let i = 0; i < dividend; i++) {
+    if (!used.includes(i)) {
+      pool.appendChild(makeToken(i));
+    }
+  }
+
+  for (let g = 0; g < groupDiv; g++) {
+    let box = document.createElement("div");
+
+    box.className = "group";
+    box.dataset.c = g % 10;
+
+    box.innerHTML = `
+      <h4>Grupo ${g + 1}</h4>
+      <div class="inside"></div>
+    `;
+
+    box.ondragover = e => e.preventDefault();
+
+    box.ondrop = e => {
+      e.preventDefault();
+      move(e.dataTransfer.getData("text/plain"), g);
+    };
+
+    box.onclick = () => {
+      if (selected !== null) {
+        move(selected, g);
+      }
+    };
+
+    placed[g].forEach(id => {
+      box.querySelector(".inside").appendChild(makeToken(id));
+    });
+
+    boxes.appendChild(box);
+  }
+}
+
+function move(id, g) {
+  id = Number(id);
+
+  if (!Number.isInteger(id)) {
+    return;
+  }
+
+  placed.forEach(a => {
+    let i = a.indexOf(id);
+
+    if (i >= 0) {
+      a.splice(i, 1);
+    }
+  });
+
+  placed[g].push(id);
+  selected = null;
+
+  $("gfb").textContent = "";
+
+  render();
+}
+
+$("reset").onclick = () => {
+  placed = Array.from({ length: groupDiv }, () => []);
+  selected = null;
+
+  $("answerarea").style.display = "none";
+  $("done").style.display = "inline-block";
+  $("gresult").style.display = "none";
+  $("again").style.display = "none";
+  $("gfb").textContent = "";
+
+  render();
+};
+
+$("done").onclick = () => {
+  let total = placed.reduce((s, a) => s + a.length, 0);
+  let left = dividend - total;
+  let sizes = placed.map(a => a.length);
+  let equal = sizes.every(n => n === sizes[0]);
+
+  let ok = groupRemainderMode
+    ? equal && left === remainder
+    : equal && left === 0;
+
+  if (!ok) {
+    $("gfb").style.color = "#dc2626";
+
+    $("gfb").textContent = groupRemainderMode
+      ? "Os grupos devem ter quantidades iguais; deixe o que sobrar fora."
+      : "Ainda não está igual! Distribua igualmente e use todas as figuras.";
+
+    return;
+  }
+
+  $("gfb").style.color = "#16a34a";
+  $("gfb").textContent = "Agrupamento certinho! Agora responda.";
+
+  $("done").style.display = "none";
+  $("answerarea").style.display = "block";
+
+  $("ask").textContent = groupRemainderMode
+    ? `Qual é o resto de ${dividend} ÷ ${groupDiv}?`
+    : `Quanto é ${dividend} ÷ ${groupDiv}?`;
+
+  $("ganswer").value = "";
+};
+
+$("gcheck").onclick = checkGroup;
+
+$("ganswer").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    checkGroup();
+  }
+});
+
+function checkGroup() {
+  if (answered) {
+    return;
+  }
+
+  if ($("ganswer").value === "") {
+    $("gfb").textContent = "Digite sua resposta.";
+    return;
+  }
+
+  let expected = groupRemainderMode ? remainder : quotient;
+
+  if (Number($("ganswer").value) === expected) {
+    answered = true;
+
+    $("gfb").style.color = "#16a34a";
+    $("gfb").textContent = "Resposta correta! 🎉";
+
+    $("gresult").style.display = "block";
+
+    $("gresult").innerHTML = groupRemainderMode
+      ? `
+        <h3>Isso mesmo! O resto é ${remainder}.</h3>
+        <p>${dividend} ÷ ${groupDiv} = ${quotient}, e sobram ${remainder}.</p>
+      `
+      : `
+        <h3>Perfeito! ${dividend} ÷ ${groupDiv} = ${quotient}.</h3>
+        <p>Você distribuiu tudo igualmente!</p>
+      `;
+
+    $("again").style.display = "block";
+    $("gcheck").disabled = true;
+  } else {
+    $("gfb").style.color = "#dc2626";
+
+    $("gfb").textContent = groupRemainderMode
+      ? "Conte as figuras que sobraram e tente novamente."
+      : "Conte quantas figuras há em cada grupo e tente novamente.";
+  }
+}
+
+/* Teclado numérico virtual compartilhado pelas práticas */
+function buildNumberKeypads() {
+  document.querySelectorAll(".numpad").forEach(pad => {
+    const targetId = pad.dataset.target;
+
+    const keys = [
+      "7", "8", "9",
+      "4", "5", "6",
+      "1", "2", "3",
+      "C", "0", "⌫"
+    ];
+
+    pad.innerHTML = "";
+
+    keys.forEach(label => {
+      const button = document.createElement("button");
+
+      button.type = "button";
+
+      button.className = "numkey" +
+        (label === "C" ? " clear" :
+        label === "⌫" ? " erase" : "");
+
+      button.textContent = label;
+
+      button.addEventListener("click", () => {
+        const field = $(targetId);
+
+        if (
+          targetId === "ans" &&
+          $("check").style.display === "none"
+        ) {
+          return;
+        }
+
+        if (
+          targetId === "ganswer" &&
+          $("gcheck").disabled
+        ) {
+          return;
+        }
+
+        if (label === "C") {
+          field.value = "";
+        } else if (label === "⌫") {
+          field.value = field.value.slice(0, -1);
+        } else if (field.value.length < 3) {
+          field.value += label;
+        }
+      });
+
+      pad.appendChild(button);
+    });
+
+    const confirm = document.createElement("button");
+
+    confirm.type = "button";
+    confirm.className = "numkey confirm";
+    confirm.textContent = "Confirmar resposta ✓";
+
+    confirm.addEventListener("click", () => {
+      if (targetId === "ans") {
+        checkQ();
+      } else {
+        checkGroup();
+      }
+    });
+
+    pad.appendChild(confirm);
+  });
+}
+
+buildNumberKeypads();
 home();
-</script></body></html>
+</script>
+
+</body>
+</html>
