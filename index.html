@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prática de Divisão | Prof. Gabriel Kawan</title>
 
 <style>
@@ -223,6 +223,13 @@ main {
   margin: 12px 0;
 }
 
+.poolhint {
+  text-align: center;
+  color: #475569;
+  font-size: 14px;
+  margin: -4px 0 10px;
+}
+
 .token {
   display: inline-flex;
   align-items: center;
@@ -236,6 +243,11 @@ main {
   cursor: grab;
   user-select: none;
   touch-action: manipulation;
+}
+
+.token.selected {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
 }
 
 .groups {
@@ -273,55 +285,16 @@ main {
   font-size: 23px;
 }
 
-.group[data-c="0"] {
-  background: #fee2e2;
-  border-color: #f87171;
-}
-
-.group[data-c="1"] {
-  background: #dbeafe;
-  border-color: #60a5fa;
-}
-
-.group[data-c="2"] {
-  background: #dcfce7;
-  border-color: #4ade80;
-}
-
-.group[data-c="3"] {
-  background: #fef3c7;
-  border-color: #fbbf24;
-}
-
-.group[data-c="4"] {
-  background: #f3e8ff;
-  border-color: #c084fc;
-}
-
-.group[data-c="5"] {
-  background: #ffedd5;
-  border-color: #fb923c;
-}
-
-.group[data-c="6"] {
-  background: #cffafe;
-  border-color: #22d3ee;
-}
-
-.group[data-c="7"] {
-  background: #fce7f3;
-  border-color: #f472b6;
-}
-
-.group[data-c="8"] {
-  background: #e0e7ff;
-  border-color: #818cf8;
-}
-
-.group[data-c="9"] {
-  background: #ecfccb;
-  border-color: #a3e635;
-}
+.group[data-c="0"] { background: #fee2e2; border-color: #f87171; }
+.group[data-c="1"] { background: #dbeafe; border-color: #60a5fa; }
+.group[data-c="2"] { background: #dcfce7; border-color: #4ade80; }
+.group[data-c="3"] { background: #fef3c7; border-color: #fbbf24; }
+.group[data-c="4"] { background: #f3e8ff; border-color: #c084fc; }
+.group[data-c="5"] { background: #ffedd5; border-color: #fb923c; }
+.group[data-c="6"] { background: #cffafe; border-color: #22d3ee; }
+.group[data-c="7"] { background: #fce7f3; border-color: #f472b6; }
+.group[data-c="8"] { background: #e0e7ff; border-color: #818cf8; }
+.group[data-c="9"] { background: #ecfccb; border-color: #a3e635; }
 
 .result {
   display: none;
@@ -468,7 +441,6 @@ footer {
     >
 
     <div class="numpad" data-target="ans"></div>
-
     <button class="btn primary" id="check">Conferir</button>
   </div>
 
@@ -509,17 +481,24 @@ footer {
     <strong>Figuras disponíveis:</strong>
   </div>
 
-  <div class="pool" id="pool"></div>
+  <div class="pool" id="pool" aria-label="Figuras disponíveis"></div>
+
+  <p class="poolhint">
+    Para retirar uma figura, toque nela dentro do grupo e depois em
+    “Retirar figura”. Também pode arrastá-la de volta para este quadro.
+  </p>
+
+  <div class="center">
+    <button class="btn secondary" id="removeToken" type="button">
+      Retirar figura selecionada
+    </button>
+  </div>
+
   <div class="groups" id="groups"></div>
 
   <div class="center">
-    <button class="btn secondary" id="reset">
-      Recomeçar agrupamento
-    </button>
-
-    <button class="btn primary" id="done">
-      Agrupamento pronto!
-    </button>
+    <button class="btn secondary" id="reset">Recomeçar agrupamento</button>
+    <button class="btn primary" id="done">Agrupamento pronto!</button>
   </div>
 
   <div id="answerarea" style="display:none;text-align:center;margin-top:18px">
@@ -536,10 +515,7 @@ footer {
     >
 
     <div class="numpad" data-target="ganswer"></div>
-
-    <button class="btn primary" id="gcheck">
-      Conferir resposta
-    </button>
+    <button class="btn primary" id="gcheck">Conferir resposta</button>
   </div>
 
   <div class="feedback" id="gfb"></div>
@@ -549,10 +525,7 @@ footer {
     <button class="btn primary" onclick="startGrouping(groupRemainderMode)">
       Outra atividade
     </button>
-
-    <button class="btn secondary" onclick="home()">
-      Início
-    </button>
+    <button class="btn secondary" onclick="home()">Início</button>
   </div>
 </section>
 
@@ -666,9 +639,7 @@ function showQ() {
 $("check").onclick = checkQ;
 
 $("ans").addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    checkQ();
-  }
+  if (e.key === "Enter") checkQ();
 });
 
 function checkQ() {
@@ -722,9 +693,7 @@ function startGrouping(withRemainder) {
     let opts = [];
 
     for (let n = groupDiv + 1; n <= 20; n++) {
-      if (n % groupDiv !== 0) {
-        opts.push(n);
-      }
+      if (n % groupDiv !== 0) opts.push(n);
     }
 
     dividend = opts[Math.floor(Math.random() * opts.length)];
@@ -790,19 +759,25 @@ function setupPicker() {
 function makeToken(id) {
   let t = document.createElement("div");
 
-  t.className = "token";
+  t.className = "token" + (selected === id ? " selected" : "");
   t.textContent = emoji;
   t.draggable = true;
   t.dataset.id = id;
+  t.setAttribute("role", "button");
+  t.setAttribute("aria-label", "Figura " + (id + 1));
 
   t.addEventListener("dragstart", e => {
     e.dataTransfer.setData("text/plain", id);
     selected = id;
   });
 
-  t.addEventListener("click", () => {
+  t.addEventListener("click", e => {
+    e.stopPropagation();
     selected = id;
-    $("gfb").textContent = "Agora toque no grupo desejado.";
+    render();
+
+    $("gfb").textContent =
+      "Figura selecionada. Toque em “Retirar figura selecionada” para devolvê-la.";
   });
 
   return t;
@@ -823,6 +798,13 @@ function render() {
     }
   }
 
+  pool.ondragover = e => e.preventDefault();
+
+  pool.ondrop = e => {
+    e.preventDefault();
+    returnToPool(e.dataTransfer.getData("text/plain"));
+  };
+
   for (let g = 0; g < groupDiv; g++) {
     let box = document.createElement("div");
 
@@ -842,9 +824,7 @@ function render() {
     };
 
     box.onclick = () => {
-      if (selected !== null) {
-        move(selected, g);
-      }
+      if (selected !== null) move(selected, g);
     };
 
     placed[g].forEach(id => {
@@ -855,12 +835,29 @@ function render() {
   }
 }
 
+function returnToPool(id) {
+  id = Number(id);
+
+  if (!Number.isInteger(id)) return;
+
+  placed.forEach(a => {
+    let i = a.indexOf(id);
+
+    if (i !== -1) {
+      a.splice(i, 1);
+    }
+  });
+
+  selected = null;
+  $("gfb").textContent = "Figura devolvida às disponíveis.";
+
+  render();
+}
+
 function move(id, g) {
   id = Number(id);
 
-  if (!Number.isInteger(id)) {
-    return;
-  }
+  if (!Number.isInteger(id)) return;
 
   placed.forEach(a => {
     let i = a.indexOf(id);
@@ -872,11 +869,20 @@ function move(id, g) {
 
   placed[g].push(id);
   selected = null;
-
   $("gfb").textContent = "";
 
   render();
 }
+
+$("removeToken").onclick = () => {
+  if (selected === null) {
+    $("gfb").textContent =
+      "Primeiro toque em uma figura que esteja dentro de um grupo.";
+    return;
+  }
+
+  returnToPool(selected);
+};
 
 $("reset").onclick = () => {
   placed = Array.from({ length: groupDiv }, () => []);
@@ -927,15 +933,11 @@ $("done").onclick = () => {
 $("gcheck").onclick = checkGroup;
 
 $("ganswer").addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    checkGroup();
-  }
+  if (e.key === "Enter") checkGroup();
 });
 
 function checkGroup() {
-  if (answered) {
-    return;
-  }
+  if (answered) return;
 
   if ($("ganswer").value === "") {
     $("gfb").textContent = "Digite sua resposta.";
@@ -991,7 +993,6 @@ function buildNumberKeypads() {
       const button = document.createElement("button");
 
       button.type = "button";
-
       button.className = "numkey" +
         (label === "C" ? " clear" :
         label === "⌫" ? " erase" : "");
